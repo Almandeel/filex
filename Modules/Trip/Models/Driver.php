@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Driver extends Model
 {
-    protected $fillable = ['uid', 'name', 'phone', 'address'];
+    protected $fillable = ['uid', 'name', 'phone', 'address', 'status'];
 }

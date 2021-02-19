@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Modules\Trip\Models\Car;
 use Modules\Trip\Models\Trip;
 use Modules\Trip\Models\State;
+use Modules\Trip\Models\Driver;
 use Illuminate\Routing\Controller;
 use Illuminate\Contracts\Support\Renderable;
 
@@ -20,7 +21,8 @@ class TripController extends Controller
         $trips = Trip::paginate();
         $states = State::all();
         $cars = Car::whereStatus(0)->get();
-        return view('trip::index', compact('trips', 'states', 'cars'));
+        $drivers = Driver::whereStatus(0)->get();
+        return view('trip::index', compact('trips', 'states', 'cars', 'drivers'));
     }
 
     /**

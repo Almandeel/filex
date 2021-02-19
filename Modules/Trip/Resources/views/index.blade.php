@@ -45,6 +45,7 @@
                             <th>من مدينة</th>
                             <th>الى مدينة</th>
                             <th>رقم اللوحة</th>
+                            <th>السائق</th>
                             <th>التكلفة</th>
                             <th>الخيارات</th>
                         </tr>
@@ -56,14 +57,16 @@
                                 <td>{{ $trip->fromState->name }}</td>
                                 <td>{{ $trip->toState->name }}</td>
                                 <td>{{ $trip->car->car_number }}</td>
+                                <td>{{ $trip->driver->name ?? null }}</td>
                                 <td>{{ $trip->amount }}</td>
                                 <td>
                                     @permission('trips-update')
-                                        <a href="#" class="btn btn-warning btn-sm showtripModal update" data-toggle="modal"
+                                        <a href="#" class="btn btn-warning btn-xs showtripModal update" data-toggle="modal"
                                             data-from="{{ $trip->from }}"
                                             data-to="{{ $trip->to }}"
                                             data-amount="{{ $trip->amount }}"
                                             data-car_id="{{ $trip->car_id }}"
+                                            data-driver_id="{{ $trip->driver_id }}"
                                             data-action="{{ route('trips.update', $trip->id) }}"
                                         ><i class="fa fa-edit"></i> تعديل</a>
 

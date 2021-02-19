@@ -19,6 +19,7 @@ class CreateDriversTable extends Migration
             $table->string('name');
             $table->string('phone');
             $table->string('address');
+            $table->tinyInteger('status')->default(0);
             $table->timestamps();
         });
     }

@@ -35,6 +35,14 @@
                         </select>
                     </div>
                     <div class="form-group">
+                        <label> السائق</label>
+                        <select id="driver" name="driver_id" class="from-control">
+                            @foreach($drivers as $driver)
+                                <option value="{{ $driver->id }}">{{ $driver->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <label>التكلفة</label>
                         <input class="form-control" autocomplete="off" type="text" name="amount" placeholder="التكلفة">
                     </div>
@@ -118,6 +126,15 @@
             let carList = $('#tripModal select[id="car"] option');
             carList.each(function () {
                 if ($(this).val() == selectedCarIds) {
+                    $(this).attr('selected', true).trigger("change")
+                }
+            })
+
+            // driver
+            let selectedDriverIds = $(this).data('driver_id')
+            let driverList = $('#tripModal select[id="driver"] option');
+            driverList.each(function () {
+                if ($(this).val() == selectedDriverIds) {
                     $(this).attr('selected', true).trigger("change")
                 }
             })

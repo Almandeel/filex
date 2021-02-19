@@ -4,6 +4,7 @@ namespace Modules\Trip\Models;
 
 use Modules\Trip\Models\Car;
 use Modules\Trip\Models\State;
+use Modules\Trip\Models\Driver;
 use Illuminate\Database\Eloquent\Model;
 
 class Trip extends Model
@@ -11,7 +12,7 @@ class Trip extends Model
     public const STATUS_DEFAULT = 0;
     public const STATUS_DONE = 1;
 
-    protected $fillable = ['from', 'to', 'car_id', 'amount', 'status'];
+    protected $fillable = ['from', 'to', 'car_id', 'driver_id' , 'amount', 'status'];
     
     public function fromState() {
         return $this->belongsTo(State::class, 'from');
@@ -23,5 +24,9 @@ class Trip extends Model
 
     public function car() {
         return $this->belongsTo(Car::class, 'car_id');
+    }
+
+    public function driver() {
+        return $this->belongsTo(Driver::class, 'driver_id');
     }
 }

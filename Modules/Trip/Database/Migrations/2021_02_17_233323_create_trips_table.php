@@ -18,6 +18,7 @@ class CreateTripsTable extends Migration
             $table->unsignedBigInteger('from');
             $table->unsignedBigInteger('to');
             $table->unsignedBigInteger('car_id');
+            $table->unsignedBigInteger('driver_id');
             $table->string('amount');
             $table->tinyInteger('status')->default(0);
             $table->timestamps();
@@ -34,6 +35,11 @@ class CreateTripsTable extends Migration
 
             $table->foreign('car_id')
             ->references('id')->on('cars')
+            ->onDelete('cascade')
+            ->onUpdate('cascade');
+
+            $table->foreign('driver_id')
+            ->references('id')->on('drivers')
             ->onDelete('cascade')
             ->onUpdate('cascade');
         });
