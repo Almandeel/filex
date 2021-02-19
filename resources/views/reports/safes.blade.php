@@ -47,7 +47,7 @@
             </form>
         </div>
         <div class="box-footer">
-            <table class="table table-bordered table-striped datatable">
+            <table class="table table-bordered table-striped ">
                 <thead>
                     <tr>
                         <th>#</th>

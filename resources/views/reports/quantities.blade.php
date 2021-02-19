@@ -1,10 +1,11 @@
 @extends('layouts.dashboard.app', ['datatable' => true])
 @section('title')
-    تقرير الكميات لمخزن: {{ $store->name }}
+    تقرير الكميات لمخزن: {{ $store ? $store->name :  null }}
 @endsection
 @section('content')
+    {{--  . $store ? $store->name : "" --}}
     @component('partials._breadcrumb')
-        @slot('title', ['التقارير', 'الكميات - مخزن: ' . $store->name])
+        @slot('title', ['التقارير', 'الكميات - مخزن '  ])
         @slot('url', ['#', '#'])
         @slot('icon', ['print', 'file'])
     @endcomponent
@@ -35,7 +36,7 @@
             </form>
         </div>
         <div class="box-footer">
-            <table id="bills-table" class="datatable table table-bordered table-hover text-center">
+            <table id="bills-table" class=" table table-bordered table-hover text-center">
                 <thead>
                     <tr>
                         <th rowspan="2">المنتج</th>

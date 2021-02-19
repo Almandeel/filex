@@ -54,7 +54,7 @@
             </form>
         </div>
         <div class="box-footer">
-            <table id="bills-table" class="datatable table table-bordered table-hover text-center">
+            <table id="bills-table" class=" table table-bordered table-hover text-center">
                 <thead>
                     <tr>
                         <th rowspan="2">المعرف</th>

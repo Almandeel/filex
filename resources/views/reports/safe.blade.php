@@ -1,6 +1,6 @@
 @extends('layouts.dashboard.app', ['datatable' => true])
 @section('title')
-    حركة: {{ $safe->name }}
+    حركة: {{ $safe->name ?? null }}
 @endsection
 @section('content')
     @component('partials._breadcrumb')
@@ -37,13 +37,14 @@
             </form>
         </div>
         <div class="box-footer">
-            <table class="table table-bordered table-striped datatable">
+            <caption><h3 class="text-center">حركة: {{ $safe->name ?? null }}</h3></caption>
+            @php
+                $total = $opening_balance; 
+                $totalDebts = $debts ? $debts->sum('amount') :  0;
+                $totalCredits = $credits ? $credits->sum('amount') :  0;
+            @endphp
+            <table class="table table-bordered table-striped ">
                 <thead>
-                    <tr>
-                        <th colspan="6">
-                            <h3 class="text-center">حركة: {{ $safe->name }}</h3>
-                        </th>
-                    </tr>
                     <tr>
                         <th>الموظف</th>
                         <th>التاريخ</th>
@@ -54,11 +55,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @php
-                        $total = $opening_balance; 
-                        $totalDebts = $debts->sum('amount');
-                        $totalCredits = $credits->sum('amount');
-                    @endphp
                     <tr>
                         <td></td>
                         <td></td>
@@ -67,8 +63,8 @@
                         <td></td>
                         <td>{{ number_format($total, 2) }}</td>
                     </tr>
-                    @foreach ($debts as $debt)
-                        @if ($debts->sum('amount'))
+                    @if ($debts)
+                        @foreach ($debts as $debt)
                             <tr>
                                 <td>{{ $debt->user->employee->name }}</td>
                                 <td>{{ $debt->created_at->format('Y-m-d') }}</td>
@@ -78,10 +74,10 @@
                                 <th>{{ number_format(($total), 2) }}</th>
                             </tr>
                             @php $total += $debt->amount @endphp
-                        @endif
-                    @endforeach
-                    @foreach ($credits as $credit)
-                        @if ($credits->sum('amount'))
+                        @endforeach
+                    @endif
+                    @if ($credits)
+                        @foreach ($credits as $credit)
                             <tr>
                                 <td>{{ $credit->user->employee->name }}</td>
                                 <td>{{ $credit->created_at->format('Y-m-d') }}</td>
@@ -91,8 +87,8 @@
                                 <th>{{ number_format(($total), 2) }}</th>
                             </tr>
                             @php $total -= $credit->amount @endphp
-                        @endif
-                    @endforeach
+                        @endforeach
+                    @endif
                 </tbody>
                 <tfoot>
                     <th colspan="3">الاجمالي</th>
@@ -108,9 +104,9 @@
     <script>
         $(function(){
             $('table.datatable').dataTable({
-                'paging'      : false,
+                'paging'      : true,
                 'searching'   : true,
-                'ordering'    : false,
+                'ordering'    : true,
                 'info'        : true,
                 'autoWidth'   : true,
                 'dom': 'Bfrtip',

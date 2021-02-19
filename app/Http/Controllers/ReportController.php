@@ -141,32 +141,35 @@ class ReportController extends Controller
         $safes = Safe::all();
         $safes_ids = $safes->pluck('id')->toArray();
         $safe = $request->safe_id ? Safe::findOrFail($request->safe_id) : $safes->first();
-        $safe_id = $safe->id;
-        $entries = Entry::where('from_id', $safe_id)->orwhere('to_id', $safe_id)->get();
+        $safe_id = $safe->id ?? null;
+
+        $debts = null;
+        $credits = null;
+        $opening_balance = 0;
         $from_date = $request->from_date ? $request->from_date : date('Y-m-d');
         $to_date = $request->to_date ? $request->to_date : date('Y-m-d');
-        $opening_balance = 0;
         
-        if(count($entries)){
-            $first_date = $entries->first()->created_at->toDateTimeString();
-            $before_date = date('Y-m-d', strtotime(Carbon::parse($from_date)->subDays(1)->toDateTimeString())) . ' 23:59:59';
-            $beforeDebts = $entries->whereBetween('created_at', [$first_date, $before_date])->filter(function($entry) use($safe) { return $entry->from_id == $safe->id; });
-            $beforeCredits = $entries->whereBetween('created_at', [$first_date, $before_date])->filter(function($entry) use($safe) { return $entry->to_id == $safe->id; });
-            $opening_balance = ($beforeDebts->sum('amount') - $beforeCredits->sum('amount'));
+        if($safe_id) {
+            $entries = Entry::where('from_id', $safe_id)->orwhere('to_id', $safe_id)->get();
+
+            
+            
+            if(count($entries)){
+                $first_date = $entries->first()->created_at->toDateTimeString();
+                $before_date = date('Y-m-d', strtotime(Carbon::parse($from_date)->subDays(1)->toDateTimeString())) . ' 23:59:59';
+                $beforeDebts = $entries->whereBetween('created_at', [$first_date, $before_date])->filter(function($entry) use($safe) { return $entry->from_id == $safe->id; });
+                $beforeCredits = $entries->whereBetween('created_at', [$first_date, $before_date])->filter(function($entry) use($safe) { return $entry->to_id == $safe->id; });
+                $opening_balance = ($beforeDebts->sum('amount') - $beforeCredits->sum('amount'));
+            }
+            
+            
+            $fromDate = $from_date . ' 00:00:00';
+            $toDate = $to_date . ' 23:59:59';
+            $entries = Entry::where('from_id', $safe_id)->orwhere('to_id', $safe_id)->get()->sortBy('created_at')->whereBetween('created_at', [$fromDate, $toDate]);
+            
+            $debts = Entry::whereBetween('created_at', [$fromDate, $toDate])->where('from_id', $safe_id)->orderBy('created_at', 'DESC')->get();
+            $credits = Entry::whereBetween('created_at', [$fromDate, $toDate])->where('to_id', $safe_id)->orderBy('created_at', 'DESC')->get();
         }
-        
-        
-        $fromDate = $from_date . ' 00:00:00';
-        $toDate = $to_date . ' 23:59:59';
-        // $debts = Entry::whereBetween('created_at', [$fromDate, $toDate])->where('from_id', $safe_id)->orderBy('created_at', 'ASC')->get()->sortBy('created_at');
-        // $credits = Entry::whereBetween('created_at', [$fromDate, $toDate])->where('to_id', $safe_id)->orderBy('created_at', 'ASC')->get()->sortBy('created_at');
-        $entries = Entry::where('from_id', $safe_id)->orwhere('to_id', $safe_id)->get()->sortBy('created_at')->whereBetween('created_at', [$fromDate, $toDate]);
-        // dd($entries);
-        //return view('reports.safe', compact('entries', 'opening_balance', 'safes', 'safe', 'safe_id', 'from_date', 'to_date'));
-        
-        $debts = Entry::whereBetween('created_at', [$fromDate, $toDate])->where('from_id', $safe_id)->orderBy('created_at', 'DESC')->get();
-        $credits = Entry::whereBetween('created_at', [$fromDate, $toDate])->where('to_id', $safe_id)->orderBy('created_at', 'DESC')->get();
-        // dd($safe);
         return view('reports.safe', compact('debts', 'credits', 'opening_balance', 'safes', 'safe', 'safe_id', 'from_date', 'to_date'));
         
     }
@@ -423,7 +426,10 @@ class ReportController extends Controller
         $stores = auth()->user()->getStores();
         $store = $request->store_id ? Store::findOrFail($request->store_id) : $stores->first();
         
-        $items_stores = ItemStore::where('store_id', $store->id)->get();
+        $items_stores = [];
+        if($store) {
+            $items_stores = ItemStore::where('store_id', $store->id)->get();
+        }
         
         $from_date = $request->from_date ? $request->from_date : date('Y-m-d');
         $to_date = $request->to_date ? $request->to_date : date('Y-m-d');
