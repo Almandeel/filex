@@ -1,0 +1,13 @@
+{
+    "name": "Trip",
+    "alias": "trip",
+    "description": "",
+    "keywords": [],
+    "order": 0,
+    "providers": [
+        "Modules\\Trip\\Providers\\TripServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}
