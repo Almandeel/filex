@@ -270,6 +270,23 @@ return [
     'pos-update' => 'تعديل نافذة البيع',
     'pos-delete' => 'حذف نافذة البيع',
 
+    'cars-read'   => 'عرض المركبات',
+    'cars-create' => 'انشاء المركبات',
+    'cars-update' => 'تعديل المركبات',
+    'cars-delete' => 'حذف المركبات',
+
+    'states-read'   => 'عرض المدن',
+    'states-create' => 'انشاء المدن',
+    'states-update' => 'تعديل المدن',
+    'states-delete' => 'حذف المدن',
+    'states-print' => 'طباعة الرحلات',
+
+    'trips-read'   => 'عرض الرحلات',
+    'trips-create' => 'انشاء الرحلات',
+    'trips-update' => 'تعديل الرحلات',
+    'trips-delete' => 'حذف الرحلات',
+    'trips-print' => 'طباعة الرحلات',
+
 
     'sms-receive' => 'استلام الرسائل النصية',
 
