@@ -17,6 +17,7 @@ class CreateTripExpensesTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('trip_id');
             $table->string('amount');
+            $table->string('expense_type');
             $table->text('notes');
             $table->timestamps();
 

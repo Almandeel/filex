@@ -102,7 +102,9 @@
                                 <td>{{ $trip->amount }}</td>
                                 <td>{{ $trip->created_at->format('Y-m-d') }}</td>
                                 <td>
-
+									@permission('trips-update')
+										<a href="{{ route('trips.show', $trip->id) }}" class="btn btn-info btn-xs" > <i class="fa fa-eye"></i>  عرض</a>
+									@endpermission
                                     @permission('trips-delete')
                                         <form style="display:inline-block" action="{{ route('trips.destroy', $trip->id) }}" method="post">
                                             @csrf 

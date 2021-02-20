@@ -251,6 +251,11 @@
                                 <li class="{{ (request()->segment(1) == '') ? 'active' : '' }}"><a href="{{ route('trips.index') }}"><i class="fa fa-angle-double-left"></i><span>  الرحلات </span></a></li>
                             @endpermission
 
+
+                            @permission('expenses-read')
+                                <li class="{{ (request()->segment(1) == '') ? 'active' : '' }}"><a href="{{ route('expenses.index') }}"><i class="fa fa-angle-double-left"></i><span>  منصرفات الرحلات </span></a></li>
+                            @endpermission
+
                             @permission('trips-read')
                                 <li class="{{ (request()->segment(1) == '') ? 'active' : '' }}"><a href="{{ route('trips.archive') }}"><i class="fa fa-angle-double-left"></i><span>  الارشيف </span></a></li>
                             @endpermission

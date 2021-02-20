@@ -107,6 +107,9 @@
                                 <td>{{ $trip->amount }}</td>
                                 <td>{{ $trip->created_at->format('Y-m-d') }}</td>
                                 <td>
+                                    @permission('trips-read')
+                                        <a href="{{ route('trips.show', $trip->id) }}" class="btn btn-info btn-xs" > <i class="fa fa-eye"></i>  عرض</a>
+                                    @endpermission
                                     @permission('trips-update')
                                         <a href="#" class="btn btn-warning btn-xs showtripModal update" data-toggle="modal"
                                             data-from="{{ $trip->from }}"

@@ -2,11 +2,13 @@
 
 namespace Modules\Trip\Http\Controllers;
 
-use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
+use Modules\Trip\Models\Trip;
+use Modules\Trip\Models\Expense;
 use Illuminate\Routing\Controller;
+use Illuminate\Contracts\Support\Renderable;
 
-class ExpenseController extends Controller
+class TripExpenseController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +16,9 @@ class ExpenseController extends Controller
      */
     public function index()
     {
-        return view('trip::index');
+        $trips = Trip::whereStatus(0)->get();
+        $expenses = Expense::paginate();
+        return view('trip::expenses.index', compact('expenses', 'trips'));
     }
 
     /**
@@ -33,7 +37,15 @@ class ExpenseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'trip_id' => 'required | string',
+            'amount' => 'required | string',
+            'expense_type' => 'required | string',
+        ]);
+
+        $expense = Expense::create($request->all());
+
+        return back()->with('success', 'تمت العملية بنجاح');
     }
 
     /**
@@ -64,7 +76,17 @@ class ExpenseController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $expense = Expense::find($id);
+
+        $request->validate([
+            'trip_id' => 'required | string',
+            'amount' => 'required | string',
+            'expense_type' => 'required | string',
+        ]);
+
+        $expense->update($request->all());
+
+        return back()->with('success', 'تمت العملية بنجاح');
     }
 
     /**
@@ -74,6 +96,8 @@ class ExpenseController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $expense = Expense::find($id);
+        $expense->delete();
+        return back()->with('success', 'تمت العملية بنجاح');
     }
 }

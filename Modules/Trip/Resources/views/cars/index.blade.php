@@ -54,8 +54,13 @@
                                 <td>{{ $car->car_number }}</td>
                                 <td>{{ $car->max_weight }}</td>
                                 <td>
+                                    @permission('cars-read')
+                                        <a href="{{ route('cars.show', $car->id) }}" class="btn btn-info btn-xs" > <i class="fa fa-eye"></i>  عرض</a>
+                                    @endpermission
+
+
                                     @permission('cars-update')
-                                        <a href="#" class="btn btn-warning btn-sm showcarModal update" data-toggle="modal"
+                                        <a href="#" class="btn btn-warning btn-xs showcarModal update" data-toggle="modal"
                                             data-vin_number="{{ $car->vin_number }}"
                                             data-car_number="{{ $car->car_number }}"
                                             data-empty_weight="{{ $car->empty_weight }}"
@@ -68,7 +73,7 @@
                                         <form style="display:inline-block" action="{{ route('cars.destroy', $car->id) }}" method="post">
                                             @csrf 
                                             @method('DELETE')
-                                            <button class="btn btn-danger btn-sm delete" type="submit"><i class="fa fa-trash"></i> حذف</button>
+                                            <button class="btn btn-danger btn-xs delete" type="submit"><i class="fa fa-trash"></i> حذف</button>
                                         </form>
                                     @endpermission
                                 </td>

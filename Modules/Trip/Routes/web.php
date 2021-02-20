@@ -17,5 +17,6 @@ Route::prefix('trip')->group(function() {
     Route::resource('/cars', 'CarController');
     Route::resource('/states', 'StateController');
     Route::resource('/trips', 'TripController');
+    Route::resource('/expenses', 'TripExpenseController');
     Route::get('/archives', 'TripController@archive')->name('trips.archive');
 });

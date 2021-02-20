@@ -6,5 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Expense extends Model
 {
-    protected $fillable = [];
+    protected $table  = "trip_expenses";
+    protected $fillable = ['trip_id', 'amount', 'expense_type', 'notes'];
 }

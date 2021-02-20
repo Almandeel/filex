@@ -4,6 +4,7 @@ namespace Modules\Trip\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Modules\Trip\Models\Car;
+use Modules\Trip\Models\Trip;
 use Illuminate\Routing\Controller;
 use Illuminate\Contracts\Support\Renderable;
 
@@ -55,7 +56,9 @@ class CarController extends Controller
      */
     public function show($id)
     {
-        return view('trip::cars.show');
+        $car = Car::find($id);
+        $trips = Trip::where('car_id', $id)->get();
+        return view('trip::cars.show', compact('car', 'trips'));
     }
 
     /**

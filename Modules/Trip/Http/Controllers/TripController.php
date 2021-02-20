@@ -8,6 +8,7 @@ use Modules\Trip\Models\Car;
 use Modules\Trip\Models\Trip;
 use Modules\Trip\Models\State;
 use Modules\Trip\Models\Driver;
+use Modules\Trip\Models\Expense;
 use Illuminate\Routing\Controller;
 use Illuminate\Contracts\Support\Renderable;
 
@@ -76,7 +77,9 @@ class TripController extends Controller
      */
     public function show($id)
     {
-        return view('trip::show');
+        $trip = Trip::find($id);
+        $expenses = Expense::where('trip_id', $id)->get();
+        return view('trip::show', compact('expenses', 'trip'));
     }
 
     /**
