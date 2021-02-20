@@ -239,17 +239,21 @@
                                 <li class="{{ (request()->segment(1) == '') ? 'active' : '' }}"><a href="{{ route('drivers.index') }}"><i class="fa fa-dashboard"></i><span>  السائقين </span></a></li>
                             @endpermission
 
-                            {{-- @permission('cars-read') --}}
+                            @permission('cars-read')
                                 <li class="{{ (request()->segment(1) == '') ? 'active' : '' }}"><a href="{{ route('cars.index') }}"><i class="fa fa-dashboard"></i><span>  المركبات </span></a></li>
-                            {{-- @endpermission --}}
+                            @endpermission
 
-                            {{-- @permission('states-read') --}}
-                            <li class="{{ (request()->segment(1) == '') ? 'active' : '' }}"><a href="{{ route('states.index') }}"><i class="fa fa-dashboard"></i><span>  المدن </span></a></li>
-                            {{-- @endpermission --}}
+                            @permission('states-read')
+                                <li class="{{ (request()->segment(1) == '') ? 'active' : '' }}"><a href="{{ route('states.index') }}"><i class="fa fa-dashboard"></i><span>  المدن </span></a></li>
+                            @endpermission
 
-                            {{-- @permission('trips-read') --}}
-                            <li class="{{ (request()->segment(1) == '') ? 'active' : '' }}"><a href="{{ route('trips.index') }}"><i class="fa fa-dashboard"></i><span>  الرحلات </span></a></li>
-                            {{-- @endpermission --}}
+                            @permission('trips-read')
+                                <li class="{{ (request()->segment(1) == '') ? 'active' : '' }}"><a href="{{ route('trips.index') }}"><i class="fa fa-dashboard"></i><span>  الرحلات </span></a></li>
+                            @endpermission
+
+                            @permission('trips-read')
+                                <li class="{{ (request()->segment(1) == '') ? 'active' : '' }}"><a href="{{ route('trips.archive') }}"><i class="fa fa-dashboard"></i><span>  الارشيف </span></a></li>
+                            @endpermission
 
                         </ul>
                     </li>

@@ -2,6 +2,7 @@
 
 namespace Modules\Trip\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Modules\Trip\Models\Car;
 use Modules\Trip\Models\Trip;
@@ -16,12 +17,21 @@ class TripController extends Controller
      * Display a listing of the resource.
      * @return Renderable
      */
-    public function index()
+    public function index(Request $request)
     {
-        $trips = Trip::paginate();
+        $from_date = Carbon::parse($request->from_date ?? now()->subDay(3)->startOfDay());
+        $to_date = Carbon::parse($request->to_date ?? now())->endOfDay();
+
+        $trips = Trip::whereStatus('0')
+            ->whereBetween('created_at', [$from_date, $to_date])
+            ->when($request->state_id != 'all' && $request->state_id != null, function ($q) use($request) {return $q->where('from', $request->state_id);})
+            ->when($request->car_id != 'all' && $request->car_id != null, function ($q) use($request) {return $q->where('car_id', $request->car_id);})
+            ->when($request->driver_id != 'all' && $request->driver_id != null, function ($q) use($request) {return $q->where('driver_id', $request->driver_id);})
+            ->orderBy('created_at', 'DESC')
+            ->paginate();
         $states = State::all();
-        $cars = Car::whereStatus(0)->get();
-        $drivers = Driver::whereStatus(0)->get();
+        $cars = Car::get();
+        $drivers = Driver::get();
         return view('trip::index', compact('trips', 'states', 'cars', 'drivers'));
     }
 
@@ -120,6 +130,30 @@ class TripController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $trip = Trip::find($id);
+        
+        $trip->delete();
+        
+        return back()->with('success', 'تمت العملية بنجاح');
+
+    }
+
+
+    public function archive(Request $request)
+    {
+        $from_date = Carbon::parse($request->from_date ?? now()->subDay(3)->startOfDay());
+        $to_date = Carbon::parse($request->to_date ?? now())->endOfDay();
+
+        $trips = Trip::whereStatus('1')
+            ->whereBetween('created_at', [$from_date, $to_date])
+            ->when($request->state_id != 'all' && $request->state_id != null, function ($q) use($request) {return $q->where('from', $request->state_id);})
+            ->when($request->car_id != 'all' && $request->car_id != null, function ($q) use($request) {return $q->where('car_id', $request->car_id);})
+            ->when($request->driver_id != 'all' && $request->driver_id != null, function ($q) use($request) {return $q->where('driver_id', $request->driver_id);})
+            ->orderBy('created_at', 'DESC')
+            ->paginate();
+        $states = State::all();
+        $cars = Car::get();
+        $drivers = Driver::get();
+        return view('trip::archive', compact('trips', 'states', 'cars', 'drivers'));
     }
 }

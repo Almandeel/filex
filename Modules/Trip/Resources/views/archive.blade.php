@@ -1,6 +1,6 @@
-@extends('layouts.dashboard.app', ['modals' => ['trip'], 'datatable' => true])
+@extends('layouts.dashboard.app', ['datatable' => true])
 
-@section('title', 'الرحلات')
+@section('title', 'ارشيف الرحلات')
 
 @push('css')
     <link rel="stylesheet" href="{{ asset('dashboard/datatables.net-bs/css/dataTables.bootstrap.min.css') }}">
@@ -18,7 +18,7 @@
 	
 @section('content')
     @component('partials._breadcrumb')
-        @slot('title', ['الرحلات'])
+        @slot('title', ['ارشيف الرحلات'])
         @slot('url', ['#'])
         @slot('icon', ['list'])
     @endcomponent
@@ -27,14 +27,9 @@
 			<div class="box-header">
 				<h4 class="box-title">
 					<i class="fa fa-list-alt"></i>
-					<span>الرحلات</span>
+					<span>ارشيف الرحلات</span>
 				</h4>
 				<div class="box-tools">
-                    @permission('trips-create')
-                        <button type="button" class="btn btn-primary btn-sm showtripModal " data-toggle="modal">
-                            <i class="fa fa-plus"> إضافة</i>
-                        </button>
-                    @endpermission
                     <a href="#search" data-toggle="collapse">
 						<i class="fa fa-cogs"></i>
 						<span>بحث متقدم</span>
@@ -107,34 +102,14 @@
                                 <td>{{ $trip->amount }}</td>
                                 <td>{{ $trip->created_at->format('Y-m-d') }}</td>
                                 <td>
-                                    @permission('trips-update')
-                                        <a href="#" class="btn btn-warning btn-xs showtripModal update" data-toggle="modal"
-                                            data-from="{{ $trip->from }}"
-                                            data-to="{{ $trip->to }}"
-                                            data-amount="{{ $trip->amount }}"
-                                            data-car_id="{{ $trip->car_id }}"
-                                            data-driver_id="{{ $trip->driver_id }}"
-                                            data-action="{{ route('trips.update', $trip->id) }}"
-                                        ><i class="fa fa-edit"></i> تعديل</a>
 
-
-
-                                        @if($trip->status == 0)
-                                            <form style="display:inline-block" action="{{ route('trips.update', $trip->id) }}?type=done" method="post">
-                                                @csrf 
-                                                @method('PUT')
-                                                <button class="btn btn-success btn-xs" type="submit"><i class="fa fa-check"></i> تمت </button>
-                                            </form>
-                                        @endif
-                                    @endpermission
-
-                                    {{-- @permission('trips-delete')
+                                    @permission('trips-delete')
                                         <form style="display:inline-block" action="{{ route('trips.destroy', $trip->id) }}" method="post">
                                             @csrf 
                                             @method('DELETE')
-                                            <button class="btn btn-danger btn-sm delete" type="submit"><i class="fa fa-trash"></i> حذف</button>
+                                            <button class="btn btn-danger btn-xs delete" type="submit"><i class="fa fa-trash"></i> حذف</button>
                                         </form>
-                                    @endpermission --}}
+                                    @endpermission
                                 </td>
                             </tr>
                         @endforeach
