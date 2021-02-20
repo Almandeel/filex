@@ -120,46 +120,17 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </a>
-            <ul class="nav navbar-nav">
-                @permission('reports-read')
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-print"></i>
-                        <span>التقارير</span>
-                        <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        @permission('safes-print')
-                            <li><a href="{{ route('reports.stores') }}">المخازن</a></li>
-                        @endpermission
-                        @permission('safes-print')
-                            <li><a href="{{ route('reports.safes') }}">الخزن</a></li>
-                        @endpermission
-                        @permission('safes-print')
-                            <li><a href="{{ route('reports.safe') }}">حركة الخزنة</a></li>
-                        @endpermission
-                        @permission('safes-print')
-                            <li><a href="{{ route('reports.quantities') }}">الكميات</a></li>
-                        @endpermission
-                        @permission('safes-print')
-                            <li><a href="{{ route('reports.purchases') }}">المشتريات</a></li>
-                        @endpermission
-                        @permission('safes-print')
-                            <li><a href="{{ route('reports.sells') }}">المبيعات</a></li>
-                        @endpermission
-                        @permission('safes-print')
-                            <li><a href="{{ route('reports.profits') }}">الارباح والخسائر</a></li>
-                        @endpermission
-                    </ul>
-                </li>
-                @endpermission
-                @if (env('APP_DEV'))
-                <li><a href="#" class="showResetModal">
-                    <i class="fa fa-repeat"></i>
-                    <span>اعادة تهيئة النظام</span>
-                </a></li>
-                @endif
-            </ul>
+
             <div class="navbar-custom-menu">
+                <ul class="nav navbar-nav pull-left">
+                    {{-- @if (env('APP_DEV'))
+                        <li><a href="#" class="showResetModal">
+                            <i class="fa fa-repeat"></i>
+                            <span>اعادة تهيئة النظام</span>
+                        </a></li>
+                    @endif --}}
+                </ul>
+
                 <ul class="nav navbar-nav" id="vue">
                     <notifications-component></notifications-component>
                     <li class="dropdown user user-menu">
@@ -209,7 +180,8 @@
     </header>
 
     @include('layouts.dashboard._aside')
-    <div class="wrapper">
+
+    
         <div class="content-wrapper">
             <section class="content">
                 <h1></h1>
@@ -227,6 +199,8 @@
                             <span aria-hidden="true">&times;</span></button>
                             <h4 class="modal-title">@lang('users.profile')</h4>
                         </div>
+
+
                         <form action="{{ route('users.profile')}}" method="POST">
                             @csrf
                             {{ method_field('PUT') }}
@@ -258,6 +232,8 @@
                                 <button type="submit" class="btn btn-primary">حفظ</button>
                             </div>
                         </form>
+
+
                         </div>
                         <!-- /.modal-content -->
                     </div>
@@ -265,7 +241,7 @@
                 </div>
             </section>
         </div>
-    </div>
+        
     @if (env('APP_DEV'))
     <div class="modal modal-xl fade" id="resetModal" tabindex="-1" role="dialog" aria-labelledby="chequesLabel"
         aria-hidden="true">

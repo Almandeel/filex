@@ -225,7 +225,7 @@
                     </li>
             @endpermission 
 
-            {{-- @permission('trips-read') --}}
+            @permission('trips-read')
                     <li class="treeview {{ (request()->segment(1) == 'stores' || request()->segment(1) == 'transferstores') ? 'active' : '' }}">
                         <a href="#">
                             <i class="fa fa-home"></i> <span>الرحلات</span>
@@ -236,28 +236,85 @@
                         <ul class="treeview-menu" style="display: none;">
 
                             @permission('drivers-read')
-                                <li class="{{ (request()->segment(1) == '') ? 'active' : '' }}"><a href="{{ route('drivers.index') }}"><i class="fa fa-dashboard"></i><span>  السائقين </span></a></li>
+                                <li class="{{ (request()->segment(1) == '') ? 'active' : '' }}"><a href="{{ route('drivers.index') }}"><i class="fa fa-angle-double-left"></i><span>  السائقين </span></a></li>
                             @endpermission
 
                             @permission('cars-read')
-                                <li class="{{ (request()->segment(1) == '') ? 'active' : '' }}"><a href="{{ route('cars.index') }}"><i class="fa fa-dashboard"></i><span>  المركبات </span></a></li>
+                                <li class="{{ (request()->segment(1) == '') ? 'active' : '' }}"><a href="{{ route('cars.index') }}"><i class="fa fa-angle-double-left"></i><span>  المركبات </span></a></li>
                             @endpermission
 
                             @permission('states-read')
-                                <li class="{{ (request()->segment(1) == '') ? 'active' : '' }}"><a href="{{ route('states.index') }}"><i class="fa fa-dashboard"></i><span>  المدن </span></a></li>
+                                <li class="{{ (request()->segment(1) == '') ? 'active' : '' }}"><a href="{{ route('states.index') }}"><i class="fa fa-angle-double-left"></i><span>  المدن </span></a></li>
                             @endpermission
 
                             @permission('trips-read')
-                                <li class="{{ (request()->segment(1) == '') ? 'active' : '' }}"><a href="{{ route('trips.index') }}"><i class="fa fa-dashboard"></i><span>  الرحلات </span></a></li>
+                                <li class="{{ (request()->segment(1) == '') ? 'active' : '' }}"><a href="{{ route('trips.index') }}"><i class="fa fa-angle-double-left"></i><span>  الرحلات </span></a></li>
                             @endpermission
 
                             @permission('trips-read')
-                                <li class="{{ (request()->segment(1) == '') ? 'active' : '' }}"><a href="{{ route('trips.archive') }}"><i class="fa fa-dashboard"></i><span>  الارشيف </span></a></li>
+                                <li class="{{ (request()->segment(1) == '') ? 'active' : '' }}"><a href="{{ route('trips.archive') }}"><i class="fa fa-angle-double-left"></i><span>  الارشيف </span></a></li>
                             @endpermission
 
                         </ul>
                     </li>
-            {{-- @endpermission  --}}
+            @endpermission 
+
+            @permission('safes-print')
+                <li class="treeview {{ (request()->segment(1) == 'stores' || request()->segment(1) == 'transferstores') ? 'active' : '' }}">
+                    <a href="#">
+                        <i class="fa fa-home"></i> <span>التقارير</span>
+                        <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                    </a>
+                    <ul class="treeview-menu" style="display: none;">
+                        <li>
+                            <a href="{{ route('reports.stores') }}">
+                                <i class="fa fa-angle-double-left"></i>
+                                المخازن
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('reports.safes') }}">
+                                <i class="fa fa-angle-double-left"></i>
+                                الخزن
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('reports.safe') }}">
+                                <i class="fa fa-angle-double-left"></i>
+                                حركة الخزنة
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('reports.quantities') }}">
+                                <i class="fa fa-angle-double-left"></i>
+                                الكميات
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('reports.purchases') }}">
+                                <i class="fa fa-angle-double-left"></i>
+                                المشتريات
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('reports.sells') }}">
+                                <i class="fa fa-angle-double-left"></i>
+                                المبيعات
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('reports.profits') }}">
+                                <i class="fa fa-angle-double-left"></i>
+                                الارباح والخسائر
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            @endpermission 
+
+
         </ul>
     </section>
 </aside>
