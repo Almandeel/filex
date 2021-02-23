@@ -2,6 +2,7 @@
 
 namespace Modules\Trip\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Modules\Trip\Models\Car;
 use Modules\Trip\Models\Trip;
@@ -54,10 +55,16 @@ class CarController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function show($id)
+    public function show(Request $request , $id)
     {
         $car = Car::find($id);
-        $trips = Trip::where('car_id', $id)->get();
+        
+        $from_date = Carbon::parse($request->from_date ?? now()->subDay(3)->startOfDay());
+        $to_date = Carbon::parse($request->to_date ?? now())->endOfDay();
+
+        $trips = Trip::where('car_id', $id)
+            ->when($request->from_date || $request->to_date , function ($q) use($from_date, $to_date) {return $q->whereBetween('created_at', [$from_date, $to_date]);})
+            ->paginate();
         return view('trip::cars.show', compact('car', 'trips'));
     }
 

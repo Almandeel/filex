@@ -38,6 +38,8 @@
                             <th>رقم اللوحة</th>
                             <th>وزن المركبة فارغ</th>
                             <th>وزن المركبة الكلى</th>
+                            <th>اجمالى الرحلات</th>
+                            <th>اجمالى المنصرفات</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -46,6 +48,8 @@
                             <td>{{ $car->car_number }}</td>
                             <td>{{ $car->empty_weight }}</td>
                             <td>{{ $car->max_weight }}</td>
+                            <td>{{ $car->trips->sum('amount') }}</td>
+                            <td>{{ $car->getTotalExpenses() }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -57,8 +61,29 @@
 				<h4 class="box-title">
 					<i class="fa fa-list-alt"></i>
 					<span>الرحلات ({{ $trips->count() }})</span>
-				</h4>
-			</div>
+                </h4>
+                <div class="box-tools">
+                    <a href="#search" data-toggle="collapse">
+						<i class="fa fa-cogs"></i>
+						<span>بحث متقدم</span>
+					</a>
+                </div>
+            </div>
+            <div id="search" class="collapse well ">
+                <form action="" method="GET" class="form-inline d-inline-block">
+                    
+                    <label for="from-date">من</label>
+                    <input type="date" name="from_date" id="from-date" value="{{ request()->from_date }}" class="form-control">
+                    
+                    <label for="to-date">الى</label>
+                    <input type="date" name="to_date" id="to-date" value="{{ request()->to_date }}" class="form-control">
+                    
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa fa-search"></i>
+                        <span></span>
+                    </button>
+                </form>
+            </div>
 			<div class="box-body">
 				<table id="bills-table" class="table table-bordered table-hover text-center">
 					<thead>
@@ -69,10 +94,13 @@
                             <th>رقم اللوحة</th>
                             <th>السائق</th>
                             <th>التكلفة</th>
+                            <th>اجمالى المنصرفات</th>
+                            <th>صافي الرحلة</th>
                             <th>التاريخ</th>
                         </tr>
                     </thead>
                     <tbody>
+                        
                         @foreach ($trips as $trip)
                             <tr>
                                 <td>{{ $loop->index + 1 }}</td>
@@ -81,6 +109,8 @@
                                 <td>{{ $trip->car->car_number }}</td>
                                 <td>{{ $trip->driver->name ?? null }}</td>
                                 <td>{{ $trip->amount }}</td>
+                                <td>{{ $trip->getExpensesAmount->sum('amount') }}</td>
+                                <td>{{ ($trip->amount - $trip->getExpensesAmount->sum('amount')) }}</td>
                                 <td>{{ $trip->created_at->format('Y-m-d') }}</td>
                                 <td>
                                     @permission('trips-read')
@@ -91,6 +121,7 @@
                         @endforeach
                     </tbody>
                 </table>
+                {{ $trips->appends(request()->all())->links() }}
 			</div>
         </div>
         

@@ -39,6 +39,8 @@
                             <th>رقم اللوحة</th>
                             <th>السائق</th>
                             <th>التكلفة</th>
+                            <th>اجمالى المنصرفات</th>
+                            <th>صافي الرحلة</th>
                             <th>التاريخ</th>
                         </tr>
                     </thead>
@@ -49,6 +51,8 @@
                             <td>{{ $trip->car->car_number }}</td>
                             <td>{{ $trip->driver->name ?? null }}</td>
                             <td>{{ $trip->amount }}</td>
+                            <td>{{ $trip->getExpensesAmount->sum('amount') }}</td>
+                            <td>{{ ($trip->amount - $trip->getExpensesAmount->sum('amount')) }}</td>
                             <td>{{ $trip->created_at->format('Y-m-d') }}</td>
                         </tr>
                     </tbody>

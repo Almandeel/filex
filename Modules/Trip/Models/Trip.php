@@ -5,6 +5,7 @@ namespace Modules\Trip\Models;
 use Modules\Trip\Models\Car;
 use Modules\Trip\Models\State;
 use Modules\Trip\Models\Driver;
+use Modules\Trip\Models\Expense;
 use Illuminate\Database\Eloquent\Model;
 
 class Trip extends Model
@@ -28,5 +29,9 @@ class Trip extends Model
 
     public function driver() {
         return $this->belongsTo(Driver::class, 'driver_id');
+    }
+
+    public function getExpensesAmount() {
+        return $this->hasMany(Expense::class);
     }
 }
