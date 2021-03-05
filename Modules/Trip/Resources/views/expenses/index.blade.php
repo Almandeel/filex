@@ -62,7 +62,7 @@
                                             data-amount="{{ $expense->amount }}"
                                             data-expense_type="{{ $expense->expense_type }}"
                                             data-notes="{{ $expense->notes }}"
-                                            data-action="{{ route('expenses.update', $expense->id) }}"
+                                            data-action="{{ route('expensestrips.update', $expense->id) }}"
                                         ><i class="fa fa-edit"></i> تعديل</a>
                                     @endpermission
 

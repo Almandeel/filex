@@ -37,6 +37,7 @@ return [
             'orders' => 'c,r,u,d',
             'settings' => 'c,r,u,d',
             'cars' => 'c,r,u,d',
+            'expenses-type' => 'c,r,u,d',
         ],
 
     ],
@@ -75,6 +76,7 @@ return [
             'drivers' => 'c,r,u,d',
             'sms' => 'rec',
             'cars' => 'c,r,u,d',
+            'expenses-type' => 'c,r,u,d',
         ],
     ],
 

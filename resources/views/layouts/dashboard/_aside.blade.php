@@ -183,6 +183,12 @@
                                             <li class="{{ (request()->segment(1) == 'expenses') ? 'active' : '' }}"><a href="{{ route('expenses.index') }}"><i class="fa fa-dollar"></i><span>  المنصرفات </span></a></li>
                                         @endpermission
 
+                                        @permission('expenses-type-read')
+                                            <li>
+                                                <a href="{{ route('expensestypes.index') }}"><i class="fa fa-dollar"></i><span>  انواع المصاريف </span></a>
+                                            </li>
+                                        @endpermission
+
                                     </ul>
                                 </li>
                             @endpermission

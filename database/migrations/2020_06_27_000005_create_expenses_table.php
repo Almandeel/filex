@@ -33,6 +33,7 @@ class CreateExpensesTable extends Migration
             $table->index(["user_id"], 'fk_expenses_users_idx1');
             $table->unsignedInteger('bill_id')->nullable();
             $table->unsignedInteger('invoice_id')->nullable();
+            $table->unsignedInteger('expenses_type')->nullable();
             $table->index(["bill_id"], 'fk_expenses_bills_idx1');
             $table->index(["invoice_id"], 'fk_expenses_invoices_idx1');
             $table->timestamps();
@@ -63,6 +64,11 @@ class CreateExpensesTable extends Migration
             
             $table->foreign('user_id', 'fk_expenses_users_idx1')
             ->references('id')->on('users')
+            ->onDelete('cascade')
+            ->onUpdate('cascade');
+
+            $table->foreign('expenses_type')
+            ->references('id')->on('expenses_types')
             ->onDelete('cascade')
             ->onUpdate('cascade');
         });

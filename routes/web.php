@@ -91,6 +91,8 @@ Route::group(['middleware' => 'auth', 'prefix' => 'management'], function() {
     
     Route::get('cheques/{cheque}/update-status/{value}', 'ChequeController@updateStatus')->name('cheques.update.status');
     Route::resource('cheques', 'ChequeController');
+    Route::resource('expensestypes', 'ExpensesTypeController');
+
     
     Route::get('notifications', function() {
         return auth()->user()->notifications;

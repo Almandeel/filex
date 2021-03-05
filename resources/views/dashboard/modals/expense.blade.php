@@ -7,7 +7,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form class="form" action="{{ route('expenses.store') }}" method="POST">
+            <form class="form" action="{{ route('expensestrips.store') }}" method="POST">
                 @csrf
                 <div class="modal-body">
                     <div class="col-md-12">
@@ -74,7 +74,7 @@
             $('#expenseModal .form').show()
 
             $('#expenseLabel').text('اضافة منصرف')
-            $('#expenseModal .form').attr('action', "{{ route('expenses.store') }}")
+            $('#expenseModal .form').attr('action', "{{ route('expensestrips.store') }}")
             $('#expenseModal .form').remove('input[name="_method"]')
 
 
