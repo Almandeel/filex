@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\{Expense, Bill, Invoice};
+use App\{Expense, Bill, ExpensesType, Invoice};
 use Illuminate\Http\Request;
 
 class ExpenseController extends Controller
@@ -21,7 +21,8 @@ class ExpenseController extends Controller
     public function index()
     {
         $expenses = Expense::all();
-        return view('dashboard.expenses.index', compact('expenses'));
+        $expenses_types = ExpensesType::all();
+        return view('dashboard.expenses.index', compact('expenses', 'expenses_types'));
     }
 
     /**
@@ -63,7 +64,8 @@ class ExpenseController extends Controller
      */
     public function show(expense $expense)
     {
-        return view('dashboard.expenses.show', compact('expense'));
+        $expenses_types = ExpensesType::all();
+        return view('dashboard.expenses.show', compact('expense', 'expenses_types'));
     }
 
     /**
@@ -84,14 +86,27 @@ class ExpenseController extends Controller
      * @param  \App\expense  $expense
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, expense $expense)
+    public function update(Request $request,Expense  $expense)
     {
+
         $request->validate([
             'amount' => 'required | numeric',
             'details' => 'required | string',
             'safe_id' => 'required | numeric',
         ]);
-        $expense->update($request->except('_token', '_method'));
+
+        $expense->update($request->all());
+
+        if(isset($expense->entry)) {
+            $expense->entry->update([
+                'amount' => $request['amount'],
+                'details' => $request['details']
+            ]);
+        }
+
+        
+        if($expense->bill) $expense->bill->refresh();
+        if($expense->invoice) $expense->invoice->refresh();
 
         session()->flash('success', 'تمت العملية بنجاح');
 

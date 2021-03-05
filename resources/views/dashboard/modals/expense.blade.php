@@ -10,7 +10,7 @@
             <form class="form" action="{{ route('expensestrips.store') }}" method="POST">
                 @csrf
                 <div class="modal-body">
-                    <div class="col-md-12">
+                    <div class="">
                         <div class="form-group">
                             <label for="trips">الرحلة</label>
                             <select class="select2 form-control" name="trip_id" id="trips" >

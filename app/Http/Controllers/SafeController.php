@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Account;
 use App\Safe;
+use App\Account;
+use App\ExpensesType;
 use Illuminate\Http\Request;
 
 class SafeController extends Controller
@@ -79,9 +80,10 @@ class SafeController extends Controller
         $from_date = $request->from_date ? $request->from_date : date('Y-m-d');
         $to_date = $request->to_date ? $request->to_date : date('Y-m-d');
         $safes = Safe::all();
+        $expenses_types = ExpensesType::all();
 
         // dd($transfers->first()->to);
-        return view('dashboard.safes.show', compact('safe', 'activeTab', 'safes', 'expenses', 'cheques', 'payments', 'transfers', 'from_date', 'to_date'));
+        return view('dashboard.safes.show', compact('expenses_types', 'safe', 'activeTab', 'safes', 'expenses', 'cheques', 'payments', 'transfers', 'from_date', 'to_date'));
         
     }
     

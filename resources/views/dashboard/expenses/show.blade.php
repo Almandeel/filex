@@ -25,6 +25,10 @@
                     <div class="box-header">
                         <table class="table table-borderd">
                             <tr>
+                                <th>نوع المنصرف</th>
+                                <td>{{ $expense->expensesType->name }}</td>
+                            </tr>
+                            <tr>
                                 <th>القيمة</th>
                                 <td>{{ $expense->amount }}</td>
                             </tr>
@@ -40,7 +44,7 @@
                     </div>
                     <div class="box-footer">
                         @permission('expenses-delete')
-                            <a class="btn btn-warning btn-xs showexpensesModal  update" data-action="{{ route('expenses.update', $expense->id) }}" data-amount="{{ $expense->amount }}" data-details="{{ $expense->details }}"><i class="fa fa-edit"></i> تعديل </a>
+                            <a class="btn btn-warning btn-xs showexpensesModal  update" data-action="{{ route('expenses.update', $expense->id) }}" data-amount="{{ $expense->amount }}" data-details="{{ $expense->details }}" data-type="{{ $expense->expenses_type }}" ><i class="fa fa-edit"></i> تعديل </a>
                         @endpermission
                     </div>
                 </div>

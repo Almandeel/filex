@@ -23,7 +23,15 @@
 							@endif
 						@endforeach
 					</select>
-				</div>
+        </div>
+        <div class="form-group">
+          <label for="expenses_types">نوع المنصرف</label>
+          <select class="select2 form-control" name="expenses_type" id="expenses_types" >
+              @foreach($expenses_types as $type)
+                  <option value="{{ $type->id }}">{{ $type->name }}</option>
+              @endforeach
+          </select>
+        </div>
                 <div class="form-group">
                     <label>القيمة</label>
                     <input  class="form-control amount" autocomplete="off" type="text" name="amount" placeholder="القيمة">
@@ -63,6 +71,17 @@
       //set fields data
       $('#expensesModal input[name="amount"]').val($(this).data('amount'))
       $('#expensesModal textarea[name="details"]').val($(this).data('details'))
+
+
+      // to state
+      let selectedTypeIds = $(this).data('type')
+      let expensesTypesList = $('#tripModal select[id="expenses_types"] option');
+      expensesTypesList.each(function () {
+        if ($(this).val() == selectedTypeIds) {
+          $(this).attr('selected', true).trigger("change")
+        }
+      })
+
     }
     else{
       $('#form_expenses').attr('action', "{{ route('expenses.store') }}")

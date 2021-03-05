@@ -23,6 +23,7 @@
                 <thead>
                     <tr>
                         <th>#</th>
+                        <th>نوع المنصرف</th>
                         <th>القيمة</th>
                         <th>التفاصيل</th>
                         <th>الخزنة</th>
@@ -38,6 +39,7 @@
                     @foreach ($expenses as $index=>$expense)
                         <tr>
                             <td>{{ $index + 1 }}</td>
+                            <td>{{ $expense->expensesType->name }}</td>
                             <td>{{ $expense->amount }}</td>
                             <td>{{ str_limit($expense->details, 30) }}</td>
                             <td>
@@ -52,7 +54,7 @@
                                     @endpermission
     
                                     @permission('expenses-update')
-                                        <a class="btn btn-warning btn-xs showexpensesModal  update" data-action="{{ route('expenses.update', $expense->id) }}" data-amount="{{ $expense->amount }}" data-details="{{ $expense->details }}"><i class="fa fa-edit"></i> تعديل </a>
+                                        <a class="btn btn-warning btn-xs showexpensesModal  update" data-action="{{ route('expenses.update', $expense->id) }}" data-amount="{{ $expense->amount }}" data-details="{{ $expense->details }}" data-type="{{ $expense->expenses_type }}"><i class="fa fa-edit"></i> تعديل </a>
                                     @endpermission
                                 </div>
                                 
@@ -73,6 +75,7 @@
                 <tfoot>
                     <tr>
                         <th>الاجمالى</th>
+                        <th></th>
                         <th>{{ number_format($total, 2) }}</th>
                         <th colspan="6"></th>
                     </tr>

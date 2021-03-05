@@ -8,7 +8,7 @@ class Expense extends Model
 {
     use AuthableModel;
     protected $fillable = [
-    'amount', 'details', 'entry_id', 'safe_id', 'bill_id', 'invoice_id', 'user_id'
+        'amount', 'details', 'entry_id', 'safe_id', 'bill_id', 'invoice_id', 'user_id', 'expenses_type'
     ];
     
     public function entry(){
@@ -47,19 +47,23 @@ class Expense extends Model
         return $expense;
     }
     
-    public function update(array $attributes = [], array $options = []){
-        if(!isset($this['entry']->expense)){
-            if(isset($this->entry)) {
-                $this->entry->update(['amount' => $attributes['amount'], 'details' => $attributes['details']]);
-            }
-            
-            $result = parent::update($attributes, $options);
-            if($this->bill) $this->bill->refresh();
-            if($this->invoice) $this->invoice->refresh();
-            return $result;
-        }
-        return null;
-    }
+    // public function update(array $attributes = [], array $options = []){
+    //     dd($attributes['details']);
+    //     if(isset($this->entry)) {
+    //         $this->entry->update([
+    //             'amount' => $attributes['amount'],
+    //             'details' => $attributes['details']
+    //         ]);
+    //     }
+        
+    //     $result = parent::update($attributes, $options);
+    //     if($this->bill) $this->bill->refresh();
+    //     if($this->invoice) $this->invoice->refresh();
+    //     return $result;
+    
+    //     return null;
+    // }
+
     public function resetBill(){
         $chargePerItem = $this->bill->items->count() ? $this->amount / $this->bill->items->count() : 0;
         foreach ($this->bill->items as $item) {
@@ -94,5 +98,9 @@ class Expense extends Model
         if($this->entry) $this->entry->delete();
         $result = parent::delete();
         return $result;
+    }
+
+    public function expensesType() {
+        return $this->belongsTo('App\ExpensesType', 'expenses_type');
     }
 }
